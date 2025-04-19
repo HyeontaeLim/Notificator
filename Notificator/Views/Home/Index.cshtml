@@ -1,0 +1,94 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "Home Page";
+    Layout = "_Layout";
+    ChzzkModel.LiveListRs? liveList = (ChzzkModel.LiveListRs?)ViewData["LiveList"];
+}
+
+<!-- 검색 영역 -->
+<div class="bg-white shadow-sm">
+    <div class="container mx-auto px-4 py-4">
+        <div class="flex items-center">
+            <div class="w-32">
+                <select id="platformSelector"
+                    class="w-full rounded-md border-gray-300 shadow-sm px-3 py-2 bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    <option>치지직</option>
+                    <option>아프리카</option>
+                    <option>전체</option>
+                </select>
+            </div>
+            <div class="flex-grow mx-2">
+                <form action="/chzzkSearch" method="get" class="relative">
+                    <input type="text" name="keyword" id="chzzk-search-input" placeholder="치지직 스트리머 검색"
+                        class="w-full rounded-md border-gray-300 shadow-sm pl-10 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+                    <i class="fas fa-search absolute left-3 top-2.5 h-5 w-5 text-gray-400"></i>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 메인 콘텐츠 -->
+<main class="flex-grow container mx-auto px-4 py-6">
+    <!-- 치지직 라이브 영역 -->
+    <div class="mb-8">
+        <div class="flex items-center justify-between mb-4">
+            <h2 class="text-xl font-bold text-gray-800">치지직 라이브</h2>
+            @if (liveList == null)
+            {
+                <a class="text-indigo-600 hover:underline text-sm" href="/chzzkLogin">치지직 로그인</a>
+            }
+        </div>
+
+        @if (liveList != null)
+        {
+            <div class="mb-8">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-xl font-bold text-gray-800">치지직 라이브</h2>
+                </div>
+                <div id="liveListContainer">
+                    @await Component.InvokeAsync("LiveList", liveList)
+                </div>
+                <div class="flex justify-end">
+                    <button id="nextPageBtn"
+                        class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors">
+                        다음 <i class="fas fa-chevron-right ml-1"></i>
+                    </button>
+                </div>
+            </div>
+        }
+    </div>
+
+    <!-- 아프리카 영역 -->
+    <div class="mb-8">
+        <div class="flex items-center justify-between mb-4">
+            <h2 class="text-xl font-bold text-gray-800">아프리카 라이브</h2>
+        </div>
+        <div class="bg-white rounded-lg shadow-md p-4">
+            <p class="text-gray-500 text-center">아프리카 영역 준비중...</p>
+        </div>
+    </div>
+</main>
+
+@section Styles {
+    <style>
+        .platform-chzzk {
+            background-color: rgb(0, 178, 70);
+        }
+
+        .platform-afreeca {
+            background-color: rgb(68, 138, 255);
+        }
+
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+    </style>
+}
+
+@section Scripts {
+    <script src="~/js/Home/index.js"></script>
+}

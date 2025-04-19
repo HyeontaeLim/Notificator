@@ -1,0 +1,46 @@
+@model ChzzkModel.LiveListRs
+
+<div class="relative">
+    <div class="overflow-hidden">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 transition-transform duration-500">
+            @foreach (var live in Model.content.data)
+            {
+                <a href="https://chzzk.naver.com/live/@live.channelId" target="_blank"
+                    class="block transform transition duration-200 ease-in-out hover:scale-105 hover:-translate-y-1 hover:z-10">
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition">
+                        <div class="relative">
+                            <img src="@live.liveThumbnailImageUrl.Replace("image_{type}", "image_480")" alt="방송 썸네일"
+                                class="w-full h-40 object-cover" />
+                            <div class="absolute top-2 left-2 platform-chzzk text-white text-xs px-2 py-1 rounded-md">
+                                치지직
+                            </div>
+                            <div
+                                class="absolute bottom-2 right-2 bg-black bg-opacity-70 text-white text-xs px-2 py-1 rounded-md flex items-center">
+                                <div class="w-2 h-2 bg-red-500 rounded-full mr-1"></div>
+                                @live.concurrentUserCount.ToString()명
+                            </div>
+                        </div>
+                        <div class="p-3">
+                            <div class="flex items-center space-x-2">
+                                <img class="w-8 h-8 rounded-full" alt="프로필" src="@live.channelImageUrl" />
+                                <div>
+                                    <h3 class="font-medium text-gray-800 line-clamp-2">@live.liveTitle</h3>
+                                    <p class="text-sm text-gray-600">@live.channelName</p>
+                                    @if (!string.IsNullOrEmpty(live.liveCategoryValue))
+                                    {
+                                        <span class="inline-block mt-1 px-2 py-0.5 bg-gray-100 text-gray-600 text-xs rounded">
+                                            @live.liveCategoryValue
+                                        </span>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            }
+        </div>
+    </div>
+
+    <span id="nextPageBtnText" class="hidden">@Model.content.page.next</span>
+
+</div>
